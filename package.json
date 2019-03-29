@@ -1,0 +1,23 @@
+{
+  "name": "myWorkout-BE",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CLu1s/myWorkout-BE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CLu1s/myWorkout-BE/issues"
+  },
+  "homepage": "https://github.com/CLu1s/myWorkout-BE#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
