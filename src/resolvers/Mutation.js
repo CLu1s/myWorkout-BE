@@ -41,16 +41,45 @@ async function login(parent, args, context, info) {
 }
 
 function post(parent, args, context, info) {
-  const userId = getUserId(context)
   return context.prisma.createLink({
     url: args.url,
     description: args.description,
     postedBy: { connect: { id: userId } },
   })
 }
+function newExcercise(parent, args ,context, info){
+  return context.prisma.createExcercise({
+    name: args.name,
+    bodyPart: args.bodyPart,
+  })
+}
+  
+function newWorkout(parent, args ,context, info){
+  return context.prisma.createWorkout({
+    excercise: { connect: { id: args.excerciseID }},
+    weight: args.weight,
+    serie: 0,
+    maxSerie: args.maxSerie,
+    reps: args.reps,
+    tempo: args.tempo,
+    resTime: args.resTime,
+    routine: { connect: { id: args.routineID }},
+  })
+}
+
+function newRoutine(parent,args,context,info){
+  return context.prisma.createRoutine({
+    name: args.name,
+    description: args.description,
+  })
+}
+
 
 module.exports = {
   signup,
   login,
   post,
+  newExcercise,
+  newWorkout,
+  newRoutine,
 }

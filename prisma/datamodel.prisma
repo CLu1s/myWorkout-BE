@@ -12,3 +12,27 @@ type User {
   password: String!
   links: [Link!]!
 }
+type Excercise {
+  id: ID! @unique
+  name: String!
+  bodyPart: String!
+}
+
+type Routine{
+  id: ID! @unique
+  name: String!
+  description: String!
+  workouts: [Workout!]!
+}
+
+type Workout{
+  id: ID! @unique
+  excercise: Excercise!
+  weight: Int!
+  serie: Int!
+  maxSerie: Int!
+  reps: Int!
+  tempo: String
+  resTime: Int!
+  routine: Routine!
+}
