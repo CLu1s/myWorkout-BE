@@ -7,6 +7,8 @@ const Query = require('./src/resolvers/Query')
 const Mutation = require('./src/resolvers/Mutation')
 const User = require('./src/resolvers/User')
 const Link = require('./src/resolvers/Link')
+const Workout = require('./src/resolvers/Workout')
+const Routine = require('./src/resolvers/Routine')
 
 // const app = express();
 const port = process.env.PORT || 4000;
@@ -38,7 +40,9 @@ const resolvers = {
   Query,
   Mutation,
   User,
-  Link
+  Link,
+  Workout,
+  Routine,
 }
 
 // 3

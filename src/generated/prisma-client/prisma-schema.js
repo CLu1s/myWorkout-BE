@@ -3,11 +3,23 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateLink {
+/* GraphQL */ `type AggregateExcercise {
+  count: Int!
+}
+
+type AggregateLink {
+  count: Int!
+}
+
+type AggregateRoutine {
   count: Int!
 }
 
 type AggregateUser {
+  count: Int!
+}
+
+type AggregateWorkout {
   count: Int!
 }
 
@@ -16,6 +28,149 @@ type BatchPayload {
 }
 
 scalar DateTime
+
+type Excercise {
+  id: ID!
+  name: String!
+  bodyPart: String!
+}
+
+type ExcerciseConnection {
+  pageInfo: PageInfo!
+  edges: [ExcerciseEdge]!
+  aggregate: AggregateExcercise!
+}
+
+input ExcerciseCreateInput {
+  name: String!
+  bodyPart: String!
+}
+
+input ExcerciseCreateOneInput {
+  create: ExcerciseCreateInput
+  connect: ExcerciseWhereUniqueInput
+}
+
+type ExcerciseEdge {
+  node: Excercise!
+  cursor: String!
+}
+
+enum ExcerciseOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  bodyPart_ASC
+  bodyPart_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ExcercisePreviousValues {
+  id: ID!
+  name: String!
+  bodyPart: String!
+}
+
+type ExcerciseSubscriptionPayload {
+  mutation: MutationType!
+  node: Excercise
+  updatedFields: [String!]
+  previousValues: ExcercisePreviousValues
+}
+
+input ExcerciseSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ExcerciseWhereInput
+  AND: [ExcerciseSubscriptionWhereInput!]
+  OR: [ExcerciseSubscriptionWhereInput!]
+  NOT: [ExcerciseSubscriptionWhereInput!]
+}
+
+input ExcerciseUpdateDataInput {
+  name: String
+  bodyPart: String
+}
+
+input ExcerciseUpdateInput {
+  name: String
+  bodyPart: String
+}
+
+input ExcerciseUpdateManyMutationInput {
+  name: String
+  bodyPart: String
+}
+
+input ExcerciseUpdateOneRequiredInput {
+  create: ExcerciseCreateInput
+  update: ExcerciseUpdateDataInput
+  upsert: ExcerciseUpsertNestedInput
+  connect: ExcerciseWhereUniqueInput
+}
+
+input ExcerciseUpsertNestedInput {
+  update: ExcerciseUpdateDataInput!
+  create: ExcerciseCreateInput!
+}
+
+input ExcerciseWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  bodyPart: String
+  bodyPart_not: String
+  bodyPart_in: [String!]
+  bodyPart_not_in: [String!]
+  bodyPart_lt: String
+  bodyPart_lte: String
+  bodyPart_gt: String
+  bodyPart_gte: String
+  bodyPart_contains: String
+  bodyPart_not_contains: String
+  bodyPart_starts_with: String
+  bodyPart_not_starts_with: String
+  bodyPart_ends_with: String
+  bodyPart_not_ends_with: String
+  AND: [ExcerciseWhereInput!]
+  OR: [ExcerciseWhereInput!]
+  NOT: [ExcerciseWhereInput!]
+}
+
+input ExcerciseWhereUniqueInput {
+  id: ID
+}
 
 type Link {
   id: ID!
@@ -259,18 +414,36 @@ input LinkWhereUniqueInput {
 scalar Long
 
 type Mutation {
+  createExcercise(data: ExcerciseCreateInput!): Excercise!
+  updateExcercise(data: ExcerciseUpdateInput!, where: ExcerciseWhereUniqueInput!): Excercise
+  updateManyExcercises(data: ExcerciseUpdateManyMutationInput!, where: ExcerciseWhereInput): BatchPayload!
+  upsertExcercise(where: ExcerciseWhereUniqueInput!, create: ExcerciseCreateInput!, update: ExcerciseUpdateInput!): Excercise!
+  deleteExcercise(where: ExcerciseWhereUniqueInput!): Excercise
+  deleteManyExcercises(where: ExcerciseWhereInput): BatchPayload!
   createLink(data: LinkCreateInput!): Link!
   updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
   updateManyLinks(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload!
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteManyLinks(where: LinkWhereInput): BatchPayload!
+  createRoutine(data: RoutineCreateInput!): Routine!
+  updateRoutine(data: RoutineUpdateInput!, where: RoutineWhereUniqueInput!): Routine
+  updateManyRoutines(data: RoutineUpdateManyMutationInput!, where: RoutineWhereInput): BatchPayload!
+  upsertRoutine(where: RoutineWhereUniqueInput!, create: RoutineCreateInput!, update: RoutineUpdateInput!): Routine!
+  deleteRoutine(where: RoutineWhereUniqueInput!): Routine
+  deleteManyRoutines(where: RoutineWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createWorkout(data: WorkoutCreateInput!): Workout!
+  updateWorkout(data: WorkoutUpdateInput!, where: WorkoutWhereUniqueInput!): Workout
+  updateManyWorkouts(data: WorkoutUpdateManyMutationInput!, where: WorkoutWhereInput): BatchPayload!
+  upsertWorkout(where: WorkoutWhereUniqueInput!, create: WorkoutCreateInput!, update: WorkoutUpdateInput!): Workout!
+  deleteWorkout(where: WorkoutWhereUniqueInput!): Workout
+  deleteManyWorkouts(where: WorkoutWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -291,18 +464,184 @@ type PageInfo {
 }
 
 type Query {
+  excercise(where: ExcerciseWhereUniqueInput!): Excercise
+  excercises(where: ExcerciseWhereInput, orderBy: ExcerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Excercise]!
+  excercisesConnection(where: ExcerciseWhereInput, orderBy: ExcerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExcerciseConnection!
   link(where: LinkWhereUniqueInput!): Link
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
   linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
+  routine(where: RoutineWhereUniqueInput!): Routine
+  routines(where: RoutineWhereInput, orderBy: RoutineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Routine]!
+  routinesConnection(where: RoutineWhereInput, orderBy: RoutineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoutineConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  workout(where: WorkoutWhereUniqueInput!): Workout
+  workouts(where: WorkoutWhereInput, orderBy: WorkoutOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Workout]!
+  workoutsConnection(where: WorkoutWhereInput, orderBy: WorkoutOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WorkoutConnection!
   node(id: ID!): Node
 }
 
+type Routine {
+  id: ID!
+  name: String!
+  description: String!
+  workouts(where: WorkoutWhereInput, orderBy: WorkoutOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Workout!]
+}
+
+type RoutineConnection {
+  pageInfo: PageInfo!
+  edges: [RoutineEdge]!
+  aggregate: AggregateRoutine!
+}
+
+input RoutineCreateInput {
+  name: String!
+  description: String!
+  workouts: WorkoutCreateManyWithoutRoutineInput
+}
+
+input RoutineCreateOneWithoutWorkoutsInput {
+  create: RoutineCreateWithoutWorkoutsInput
+  connect: RoutineWhereUniqueInput
+}
+
+input RoutineCreateWithoutWorkoutsInput {
+  name: String!
+  description: String!
+}
+
+type RoutineEdge {
+  node: Routine!
+  cursor: String!
+}
+
+enum RoutineOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type RoutinePreviousValues {
+  id: ID!
+  name: String!
+  description: String!
+}
+
+type RoutineSubscriptionPayload {
+  mutation: MutationType!
+  node: Routine
+  updatedFields: [String!]
+  previousValues: RoutinePreviousValues
+}
+
+input RoutineSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RoutineWhereInput
+  AND: [RoutineSubscriptionWhereInput!]
+  OR: [RoutineSubscriptionWhereInput!]
+  NOT: [RoutineSubscriptionWhereInput!]
+}
+
+input RoutineUpdateInput {
+  name: String
+  description: String
+  workouts: WorkoutUpdateManyWithoutRoutineInput
+}
+
+input RoutineUpdateManyMutationInput {
+  name: String
+  description: String
+}
+
+input RoutineUpdateOneRequiredWithoutWorkoutsInput {
+  create: RoutineCreateWithoutWorkoutsInput
+  update: RoutineUpdateWithoutWorkoutsDataInput
+  upsert: RoutineUpsertWithoutWorkoutsInput
+  connect: RoutineWhereUniqueInput
+}
+
+input RoutineUpdateWithoutWorkoutsDataInput {
+  name: String
+  description: String
+}
+
+input RoutineUpsertWithoutWorkoutsInput {
+  update: RoutineUpdateWithoutWorkoutsDataInput!
+  create: RoutineCreateWithoutWorkoutsInput!
+}
+
+input RoutineWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  workouts_every: WorkoutWhereInput
+  workouts_some: WorkoutWhereInput
+  workouts_none: WorkoutWhereInput
+  AND: [RoutineWhereInput!]
+  OR: [RoutineWhereInput!]
+  NOT: [RoutineWhereInput!]
+}
+
+input RoutineWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
+  excercise(where: ExcerciseSubscriptionWhereInput): ExcerciseSubscriptionPayload
   link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
+  routine(where: RoutineSubscriptionWhereInput): RoutineSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  workout(where: WorkoutSubscriptionWhereInput): WorkoutSubscriptionPayload
 }
 
 type User {
@@ -483,6 +822,325 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+type Workout {
+  id: ID!
+  excercise: Excercise!
+  weight: Int!
+  serie: Int!
+  maxSerie: Int!
+  reps: Int!
+  tempo: String
+  resTime: Int!
+  routine: Routine!
+}
+
+type WorkoutConnection {
+  pageInfo: PageInfo!
+  edges: [WorkoutEdge]!
+  aggregate: AggregateWorkout!
+}
+
+input WorkoutCreateInput {
+  excercise: ExcerciseCreateOneInput!
+  weight: Int!
+  serie: Int!
+  maxSerie: Int!
+  reps: Int!
+  tempo: String
+  resTime: Int!
+  routine: RoutineCreateOneWithoutWorkoutsInput!
+}
+
+input WorkoutCreateManyWithoutRoutineInput {
+  create: [WorkoutCreateWithoutRoutineInput!]
+  connect: [WorkoutWhereUniqueInput!]
+}
+
+input WorkoutCreateWithoutRoutineInput {
+  excercise: ExcerciseCreateOneInput!
+  weight: Int!
+  serie: Int!
+  maxSerie: Int!
+  reps: Int!
+  tempo: String
+  resTime: Int!
+}
+
+type WorkoutEdge {
+  node: Workout!
+  cursor: String!
+}
+
+enum WorkoutOrderByInput {
+  id_ASC
+  id_DESC
+  weight_ASC
+  weight_DESC
+  serie_ASC
+  serie_DESC
+  maxSerie_ASC
+  maxSerie_DESC
+  reps_ASC
+  reps_DESC
+  tempo_ASC
+  tempo_DESC
+  resTime_ASC
+  resTime_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WorkoutPreviousValues {
+  id: ID!
+  weight: Int!
+  serie: Int!
+  maxSerie: Int!
+  reps: Int!
+  tempo: String
+  resTime: Int!
+}
+
+input WorkoutScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  weight: Int
+  weight_not: Int
+  weight_in: [Int!]
+  weight_not_in: [Int!]
+  weight_lt: Int
+  weight_lte: Int
+  weight_gt: Int
+  weight_gte: Int
+  serie: Int
+  serie_not: Int
+  serie_in: [Int!]
+  serie_not_in: [Int!]
+  serie_lt: Int
+  serie_lte: Int
+  serie_gt: Int
+  serie_gte: Int
+  maxSerie: Int
+  maxSerie_not: Int
+  maxSerie_in: [Int!]
+  maxSerie_not_in: [Int!]
+  maxSerie_lt: Int
+  maxSerie_lte: Int
+  maxSerie_gt: Int
+  maxSerie_gte: Int
+  reps: Int
+  reps_not: Int
+  reps_in: [Int!]
+  reps_not_in: [Int!]
+  reps_lt: Int
+  reps_lte: Int
+  reps_gt: Int
+  reps_gte: Int
+  tempo: String
+  tempo_not: String
+  tempo_in: [String!]
+  tempo_not_in: [String!]
+  tempo_lt: String
+  tempo_lte: String
+  tempo_gt: String
+  tempo_gte: String
+  tempo_contains: String
+  tempo_not_contains: String
+  tempo_starts_with: String
+  tempo_not_starts_with: String
+  tempo_ends_with: String
+  tempo_not_ends_with: String
+  resTime: Int
+  resTime_not: Int
+  resTime_in: [Int!]
+  resTime_not_in: [Int!]
+  resTime_lt: Int
+  resTime_lte: Int
+  resTime_gt: Int
+  resTime_gte: Int
+  AND: [WorkoutScalarWhereInput!]
+  OR: [WorkoutScalarWhereInput!]
+  NOT: [WorkoutScalarWhereInput!]
+}
+
+type WorkoutSubscriptionPayload {
+  mutation: MutationType!
+  node: Workout
+  updatedFields: [String!]
+  previousValues: WorkoutPreviousValues
+}
+
+input WorkoutSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: WorkoutWhereInput
+  AND: [WorkoutSubscriptionWhereInput!]
+  OR: [WorkoutSubscriptionWhereInput!]
+  NOT: [WorkoutSubscriptionWhereInput!]
+}
+
+input WorkoutUpdateInput {
+  excercise: ExcerciseUpdateOneRequiredInput
+  weight: Int
+  serie: Int
+  maxSerie: Int
+  reps: Int
+  tempo: String
+  resTime: Int
+  routine: RoutineUpdateOneRequiredWithoutWorkoutsInput
+}
+
+input WorkoutUpdateManyDataInput {
+  weight: Int
+  serie: Int
+  maxSerie: Int
+  reps: Int
+  tempo: String
+  resTime: Int
+}
+
+input WorkoutUpdateManyMutationInput {
+  weight: Int
+  serie: Int
+  maxSerie: Int
+  reps: Int
+  tempo: String
+  resTime: Int
+}
+
+input WorkoutUpdateManyWithoutRoutineInput {
+  create: [WorkoutCreateWithoutRoutineInput!]
+  delete: [WorkoutWhereUniqueInput!]
+  connect: [WorkoutWhereUniqueInput!]
+  set: [WorkoutWhereUniqueInput!]
+  disconnect: [WorkoutWhereUniqueInput!]
+  update: [WorkoutUpdateWithWhereUniqueWithoutRoutineInput!]
+  upsert: [WorkoutUpsertWithWhereUniqueWithoutRoutineInput!]
+  deleteMany: [WorkoutScalarWhereInput!]
+  updateMany: [WorkoutUpdateManyWithWhereNestedInput!]
+}
+
+input WorkoutUpdateManyWithWhereNestedInput {
+  where: WorkoutScalarWhereInput!
+  data: WorkoutUpdateManyDataInput!
+}
+
+input WorkoutUpdateWithoutRoutineDataInput {
+  excercise: ExcerciseUpdateOneRequiredInput
+  weight: Int
+  serie: Int
+  maxSerie: Int
+  reps: Int
+  tempo: String
+  resTime: Int
+}
+
+input WorkoutUpdateWithWhereUniqueWithoutRoutineInput {
+  where: WorkoutWhereUniqueInput!
+  data: WorkoutUpdateWithoutRoutineDataInput!
+}
+
+input WorkoutUpsertWithWhereUniqueWithoutRoutineInput {
+  where: WorkoutWhereUniqueInput!
+  update: WorkoutUpdateWithoutRoutineDataInput!
+  create: WorkoutCreateWithoutRoutineInput!
+}
+
+input WorkoutWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  excercise: ExcerciseWhereInput
+  weight: Int
+  weight_not: Int
+  weight_in: [Int!]
+  weight_not_in: [Int!]
+  weight_lt: Int
+  weight_lte: Int
+  weight_gt: Int
+  weight_gte: Int
+  serie: Int
+  serie_not: Int
+  serie_in: [Int!]
+  serie_not_in: [Int!]
+  serie_lt: Int
+  serie_lte: Int
+  serie_gt: Int
+  serie_gte: Int
+  maxSerie: Int
+  maxSerie_not: Int
+  maxSerie_in: [Int!]
+  maxSerie_not_in: [Int!]
+  maxSerie_lt: Int
+  maxSerie_lte: Int
+  maxSerie_gt: Int
+  maxSerie_gte: Int
+  reps: Int
+  reps_not: Int
+  reps_in: [Int!]
+  reps_not_in: [Int!]
+  reps_lt: Int
+  reps_lte: Int
+  reps_gt: Int
+  reps_gte: Int
+  tempo: String
+  tempo_not: String
+  tempo_in: [String!]
+  tempo_not_in: [String!]
+  tempo_lt: String
+  tempo_lte: String
+  tempo_gt: String
+  tempo_gte: String
+  tempo_contains: String
+  tempo_not_contains: String
+  tempo_starts_with: String
+  tempo_not_starts_with: String
+  tempo_ends_with: String
+  tempo_not_ends_with: String
+  resTime: Int
+  resTime_not: Int
+  resTime_in: [Int!]
+  resTime_not_in: [Int!]
+  resTime_lt: Int
+  resTime_lte: Int
+  resTime_gt: Int
+  resTime_gte: Int
+  routine: RoutineWhereInput
+  AND: [WorkoutWhereInput!]
+  OR: [WorkoutWhereInput!]
+  NOT: [WorkoutWhereInput!]
+}
+
+input WorkoutWhereUniqueInput {
+  id: ID
 }
 `
       }
