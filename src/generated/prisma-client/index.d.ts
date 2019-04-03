@@ -14,6 +14,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  athlete: (where?: AthleteWhereInput) => Promise<boolean>;
   excercise: (where?: ExcerciseWhereInput) => Promise<boolean>;
   link: (where?: LinkWhereInput) => Promise<boolean>;
   routine: (where?: RoutineWhereInput) => Promise<boolean>;
@@ -40,6 +41,29 @@ export interface Prisma {
    * Queries
    */
 
+  athlete: (where: AthleteWhereUniqueInput) => AthletePromise;
+  athletes: (
+    args?: {
+      where?: AthleteWhereInput;
+      orderBy?: AthleteOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Athlete>;
+  athletesConnection: (
+    args?: {
+      where?: AthleteWhereInput;
+      orderBy?: AthleteOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => AthleteConnectionPromise;
   excercise: (where: ExcerciseWhereUniqueInput) => ExcercisePromise;
   excercises: (
     args?: {
@@ -161,6 +185,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createAthlete: (data: AthleteCreateInput) => AthletePromise;
+  updateAthlete: (
+    args: { data: AthleteUpdateInput; where: AthleteWhereUniqueInput }
+  ) => AthletePromise;
+  updateManyAthletes: (
+    args: { data: AthleteUpdateManyMutationInput; where?: AthleteWhereInput }
+  ) => BatchPayloadPromise;
+  upsertAthlete: (
+    args: {
+      where: AthleteWhereUniqueInput;
+      create: AthleteCreateInput;
+      update: AthleteUpdateInput;
+    }
+  ) => AthletePromise;
+  deleteAthlete: (where: AthleteWhereUniqueInput) => AthletePromise;
+  deleteManyAthletes: (where?: AthleteWhereInput) => BatchPayloadPromise;
   createExcercise: (data: ExcerciseCreateInput) => ExcercisePromise;
   updateExcercise: (
     args: { data: ExcerciseUpdateInput; where: ExcerciseWhereUniqueInput }
@@ -253,6 +293,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  athlete: (
+    where?: AthleteSubscriptionWhereInput
+  ) => AthleteSubscriptionPayloadSubscription;
   excercise: (
     where?: ExcerciseSubscriptionWhereInput
   ) => ExcerciseSubscriptionPayloadSubscription;
@@ -278,6 +321,48 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type RoutineOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type WorkoutOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "weight_ASC"
+  | "weight_DESC"
+  | "serie_ASC"
+  | "serie_DESC"
+  | "maxSerie_ASC"
+  | "maxSerie_DESC"
+  | "reps_ASC"
+  | "reps_DESC"
+  | "tempo_ASC"
+  | "tempo_DESC"
+  | "resTime_ASC"
+  | "resTime_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type AthleteOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type ExcerciseOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -302,38 +387,6 @@ export type LinkOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type WorkoutOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "weight_ASC"
-  | "weight_DESC"
-  | "serie_ASC"
-  | "serie_DESC"
-  | "maxSerie_ASC"
-  | "maxSerie_DESC"
-  | "reps_ASC"
-  | "reps_DESC"
-  | "tempo_ASC"
-  | "tempo_DESC"
-  | "resTime_ASC"
-  | "resTime_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type RoutineOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -350,9 +403,136 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type ExcerciseWhereUniqueInput = AtLeastOne<{
+export type AthleteWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export interface RoutineWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  workouts_every?: WorkoutWhereInput;
+  workouts_some?: WorkoutWhereInput;
+  workouts_none?: WorkoutWhereInput;
+  AND?: RoutineWhereInput[] | RoutineWhereInput;
+  OR?: RoutineWhereInput[] | RoutineWhereInput;
+  NOT?: RoutineWhereInput[] | RoutineWhereInput;
+}
+
+export interface WorkoutWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  excercise?: ExcerciseWhereInput;
+  weight?: Int;
+  weight_not?: Int;
+  weight_in?: Int[] | Int;
+  weight_not_in?: Int[] | Int;
+  weight_lt?: Int;
+  weight_lte?: Int;
+  weight_gt?: Int;
+  weight_gte?: Int;
+  serie?: Int;
+  serie_not?: Int;
+  serie_in?: Int[] | Int;
+  serie_not_in?: Int[] | Int;
+  serie_lt?: Int;
+  serie_lte?: Int;
+  serie_gt?: Int;
+  serie_gte?: Int;
+  maxSerie?: Int;
+  maxSerie_not?: Int;
+  maxSerie_in?: Int[] | Int;
+  maxSerie_not_in?: Int[] | Int;
+  maxSerie_lt?: Int;
+  maxSerie_lte?: Int;
+  maxSerie_gt?: Int;
+  maxSerie_gte?: Int;
+  reps?: Int;
+  reps_not?: Int;
+  reps_in?: Int[] | Int;
+  reps_not_in?: Int[] | Int;
+  reps_lt?: Int;
+  reps_lte?: Int;
+  reps_gt?: Int;
+  reps_gte?: Int;
+  tempo?: String;
+  tempo_not?: String;
+  tempo_in?: String[] | String;
+  tempo_not_in?: String[] | String;
+  tempo_lt?: String;
+  tempo_lte?: String;
+  tempo_gt?: String;
+  tempo_gte?: String;
+  tempo_contains?: String;
+  tempo_not_contains?: String;
+  tempo_starts_with?: String;
+  tempo_not_starts_with?: String;
+  tempo_ends_with?: String;
+  tempo_not_ends_with?: String;
+  resTime?: Int;
+  resTime_not?: Int;
+  resTime_in?: Int[] | Int;
+  resTime_not_in?: Int[] | Int;
+  resTime_lt?: Int;
+  resTime_lte?: Int;
+  resTime_gt?: Int;
+  resTime_gte?: Int;
+  routine?: RoutineWhereInput;
+  AND?: WorkoutWhereInput[] | WorkoutWhereInput;
+  OR?: WorkoutWhereInput[] | WorkoutWhereInput;
+  NOT?: WorkoutWhereInput[] | WorkoutWhereInput;
+}
 
 export interface ExcerciseWhereInput {
   id?: ID_Input;
@@ -401,6 +581,47 @@ export interface ExcerciseWhereInput {
   OR?: ExcerciseWhereInput[] | ExcerciseWhereInput;
   NOT?: ExcerciseWhereInput[] | ExcerciseWhereInput;
 }
+
+export interface AthleteWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  routines_every?: RoutineWhereInput;
+  routines_some?: RoutineWhereInput;
+  routines_none?: RoutineWhereInput;
+  AND?: AthleteWhereInput[] | AthleteWhereInput;
+  OR?: AthleteWhereInput[] | AthleteWhereInput;
+  NOT?: AthleteWhereInput[] | AthleteWhereInput;
+}
+
+export type ExcerciseWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export type LinkWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -532,133 +753,6 @@ export type RoutineWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface WorkoutWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  excercise?: ExcerciseWhereInput;
-  weight?: Int;
-  weight_not?: Int;
-  weight_in?: Int[] | Int;
-  weight_not_in?: Int[] | Int;
-  weight_lt?: Int;
-  weight_lte?: Int;
-  weight_gt?: Int;
-  weight_gte?: Int;
-  serie?: Int;
-  serie_not?: Int;
-  serie_in?: Int[] | Int;
-  serie_not_in?: Int[] | Int;
-  serie_lt?: Int;
-  serie_lte?: Int;
-  serie_gt?: Int;
-  serie_gte?: Int;
-  maxSerie?: Int;
-  maxSerie_not?: Int;
-  maxSerie_in?: Int[] | Int;
-  maxSerie_not_in?: Int[] | Int;
-  maxSerie_lt?: Int;
-  maxSerie_lte?: Int;
-  maxSerie_gt?: Int;
-  maxSerie_gte?: Int;
-  reps?: Int;
-  reps_not?: Int;
-  reps_in?: Int[] | Int;
-  reps_not_in?: Int[] | Int;
-  reps_lt?: Int;
-  reps_lte?: Int;
-  reps_gt?: Int;
-  reps_gte?: Int;
-  tempo?: String;
-  tempo_not?: String;
-  tempo_in?: String[] | String;
-  tempo_not_in?: String[] | String;
-  tempo_lt?: String;
-  tempo_lte?: String;
-  tempo_gt?: String;
-  tempo_gte?: String;
-  tempo_contains?: String;
-  tempo_not_contains?: String;
-  tempo_starts_with?: String;
-  tempo_not_starts_with?: String;
-  tempo_ends_with?: String;
-  tempo_not_ends_with?: String;
-  resTime?: Int;
-  resTime_not?: Int;
-  resTime_in?: Int[] | Int;
-  resTime_not_in?: Int[] | Int;
-  resTime_lt?: Int;
-  resTime_lte?: Int;
-  resTime_gt?: Int;
-  resTime_gte?: Int;
-  routine?: RoutineWhereInput;
-  AND?: WorkoutWhereInput[] | WorkoutWhereInput;
-  OR?: WorkoutWhereInput[] | WorkoutWhereInput;
-  NOT?: WorkoutWhereInput[] | WorkoutWhereInput;
-}
-
-export interface RoutineWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  workouts_every?: WorkoutWhereInput;
-  workouts_some?: WorkoutWhereInput;
-  workouts_none?: WorkoutWhereInput;
-  AND?: RoutineWhereInput[] | RoutineWhereInput;
-  OR?: RoutineWhereInput[] | RoutineWhereInput;
-  NOT?: RoutineWhereInput[] | RoutineWhereInput;
-}
-
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
@@ -668,67 +762,14 @@ export type WorkoutWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface ExcerciseCreateInput {
+export interface AthleteCreateInput {
   name: String;
-  bodyPart: String;
+  routines?: RoutineCreateManyInput;
 }
 
-export interface ExcerciseUpdateInput {
-  name?: String;
-  bodyPart?: String;
-}
-
-export interface ExcerciseUpdateManyMutationInput {
-  name?: String;
-  bodyPart?: String;
-}
-
-export interface LinkCreateInput {
-  description: String;
-  url: String;
-  postedBy?: UserCreateOneWithoutLinksInput;
-}
-
-export interface UserCreateOneWithoutLinksInput {
-  create?: UserCreateWithoutLinksInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserCreateWithoutLinksInput {
-  name: String;
-  email: String;
-  password: String;
-}
-
-export interface LinkUpdateInput {
-  description?: String;
-  url?: String;
-  postedBy?: UserUpdateOneWithoutLinksInput;
-}
-
-export interface UserUpdateOneWithoutLinksInput {
-  create?: UserCreateWithoutLinksInput;
-  update?: UserUpdateWithoutLinksDataInput;
-  upsert?: UserUpsertWithoutLinksInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserUpdateWithoutLinksDataInput {
-  name?: String;
-  email?: String;
-  password?: String;
-}
-
-export interface UserUpsertWithoutLinksInput {
-  update: UserUpdateWithoutLinksDataInput;
-  create: UserCreateWithoutLinksInput;
-}
-
-export interface LinkUpdateManyMutationInput {
-  description?: String;
-  url?: String;
+export interface RoutineCreateManyInput {
+  create?: RoutineCreateInput[] | RoutineCreateInput;
+  connect?: RoutineWhereUniqueInput[] | RoutineWhereUniqueInput;
 }
 
 export interface RoutineCreateInput {
@@ -759,7 +800,40 @@ export interface ExcerciseCreateOneInput {
   connect?: ExcerciseWhereUniqueInput;
 }
 
-export interface RoutineUpdateInput {
+export interface ExcerciseCreateInput {
+  name: String;
+  bodyPart: String;
+}
+
+export interface AthleteUpdateInput {
+  name?: String;
+  routines?: RoutineUpdateManyInput;
+}
+
+export interface RoutineUpdateManyInput {
+  create?: RoutineCreateInput[] | RoutineCreateInput;
+  update?:
+    | RoutineUpdateWithWhereUniqueNestedInput[]
+    | RoutineUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | RoutineUpsertWithWhereUniqueNestedInput[]
+    | RoutineUpsertWithWhereUniqueNestedInput;
+  delete?: RoutineWhereUniqueInput[] | RoutineWhereUniqueInput;
+  connect?: RoutineWhereUniqueInput[] | RoutineWhereUniqueInput;
+  set?: RoutineWhereUniqueInput[] | RoutineWhereUniqueInput;
+  disconnect?: RoutineWhereUniqueInput[] | RoutineWhereUniqueInput;
+  deleteMany?: RoutineScalarWhereInput[] | RoutineScalarWhereInput;
+  updateMany?:
+    | RoutineUpdateManyWithWhereNestedInput[]
+    | RoutineUpdateManyWithWhereNestedInput;
+}
+
+export interface RoutineUpdateWithWhereUniqueNestedInput {
+  where: RoutineWhereUniqueInput;
+  data: RoutineUpdateDataInput;
+}
+
+export interface RoutineUpdateDataInput {
   name?: String;
   description?: String;
   workouts?: WorkoutUpdateManyWithoutRoutineInput;
@@ -909,6 +983,138 @@ export interface WorkoutUpdateManyDataInput {
   reps?: Int;
   tempo?: String;
   resTime?: Int;
+}
+
+export interface RoutineUpsertWithWhereUniqueNestedInput {
+  where: RoutineWhereUniqueInput;
+  update: RoutineUpdateDataInput;
+  create: RoutineCreateInput;
+}
+
+export interface RoutineScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  AND?: RoutineScalarWhereInput[] | RoutineScalarWhereInput;
+  OR?: RoutineScalarWhereInput[] | RoutineScalarWhereInput;
+  NOT?: RoutineScalarWhereInput[] | RoutineScalarWhereInput;
+}
+
+export interface RoutineUpdateManyWithWhereNestedInput {
+  where: RoutineScalarWhereInput;
+  data: RoutineUpdateManyDataInput;
+}
+
+export interface RoutineUpdateManyDataInput {
+  name?: String;
+  description?: String;
+}
+
+export interface AthleteUpdateManyMutationInput {
+  name?: String;
+}
+
+export interface ExcerciseUpdateInput {
+  name?: String;
+  bodyPart?: String;
+}
+
+export interface ExcerciseUpdateManyMutationInput {
+  name?: String;
+  bodyPart?: String;
+}
+
+export interface LinkCreateInput {
+  description: String;
+  url: String;
+  postedBy?: UserCreateOneWithoutLinksInput;
+}
+
+export interface UserCreateOneWithoutLinksInput {
+  create?: UserCreateWithoutLinksInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutLinksInput {
+  name: String;
+  email: String;
+  password: String;
+}
+
+export interface LinkUpdateInput {
+  description?: String;
+  url?: String;
+  postedBy?: UserUpdateOneWithoutLinksInput;
+}
+
+export interface UserUpdateOneWithoutLinksInput {
+  create?: UserCreateWithoutLinksInput;
+  update?: UserUpdateWithoutLinksDataInput;
+  upsert?: UserUpsertWithoutLinksInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutLinksDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+}
+
+export interface UserUpsertWithoutLinksInput {
+  update: UserUpdateWithoutLinksDataInput;
+  create: UserCreateWithoutLinksInput;
+}
+
+export interface LinkUpdateManyMutationInput {
+  description?: String;
+  url?: String;
+}
+
+export interface RoutineUpdateInput {
+  name?: String;
+  description?: String;
+  workouts?: WorkoutUpdateManyWithoutRoutineInput;
 }
 
 export interface RoutineUpdateManyMutationInput {
@@ -1104,6 +1310,17 @@ export interface WorkoutUpdateManyMutationInput {
   resTime?: Int;
 }
 
+export interface AthleteSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: AthleteWhereInput;
+  AND?: AthleteSubscriptionWhereInput[] | AthleteSubscriptionWhereInput;
+  OR?: AthleteSubscriptionWhereInput[] | AthleteSubscriptionWhereInput;
+  NOT?: AthleteSubscriptionWhereInput[] | AthleteSubscriptionWhereInput;
+}
+
 export interface ExcerciseSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -1163,6 +1380,123 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Athlete {
+  id: ID_Output;
+  name: String;
+}
+
+export interface AthletePromise extends Promise<Athlete>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  routines: <T = FragmentableArray<Routine>>(
+    args?: {
+      where?: RoutineWhereInput;
+      orderBy?: RoutineOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface AthleteSubscription
+  extends Promise<AsyncIterator<Athlete>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  routines: <T = Promise<AsyncIterator<RoutineSubscription>>>(
+    args?: {
+      where?: RoutineWhereInput;
+      orderBy?: RoutineOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface Routine {
+  id: ID_Output;
+  name: String;
+  description: String;
+}
+
+export interface RoutinePromise extends Promise<Routine>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  workouts: <T = FragmentableArray<Workout>>(
+    args?: {
+      where?: WorkoutWhereInput;
+      orderBy?: WorkoutOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface RoutineSubscription
+  extends Promise<AsyncIterator<Routine>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  workouts: <T = Promise<AsyncIterator<WorkoutSubscription>>>(
+    args?: {
+      where?: WorkoutWhereInput;
+      orderBy?: WorkoutOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface Workout {
+  id: ID_Output;
+  weight: Int;
+  serie: Int;
+  maxSerie: Int;
+  reps: Int;
+  tempo?: String;
+  resTime: Int;
+}
+
+export interface WorkoutPromise extends Promise<Workout>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  excercise: <T = ExcercisePromise>() => T;
+  weight: () => Promise<Int>;
+  serie: () => Promise<Int>;
+  maxSerie: () => Promise<Int>;
+  reps: () => Promise<Int>;
+  tempo: () => Promise<String>;
+  resTime: () => Promise<Int>;
+  routine: <T = RoutinePromise>() => T;
+}
+
+export interface WorkoutSubscription
+  extends Promise<AsyncIterator<Workout>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  excercise: <T = ExcerciseSubscription>() => T;
+  weight: () => Promise<AsyncIterator<Int>>;
+  serie: () => Promise<AsyncIterator<Int>>;
+  maxSerie: () => Promise<AsyncIterator<Int>>;
+  reps: () => Promise<AsyncIterator<Int>>;
+  tempo: () => Promise<AsyncIterator<String>>;
+  resTime: () => Promise<AsyncIterator<Int>>;
+  routine: <T = RoutineSubscription>() => T;
+}
+
 export interface Excercise {
   id: ID_Output;
   name: String;
@@ -1183,25 +1517,25 @@ export interface ExcerciseSubscription
   bodyPart: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ExcerciseConnection {
+export interface AthleteConnection {
   pageInfo: PageInfo;
-  edges: ExcerciseEdge[];
+  edges: AthleteEdge[];
 }
 
-export interface ExcerciseConnectionPromise
-  extends Promise<ExcerciseConnection>,
+export interface AthleteConnectionPromise
+  extends Promise<AthleteConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ExcerciseEdge>>() => T;
-  aggregate: <T = AggregateExcercisePromise>() => T;
+  edges: <T = FragmentableArray<AthleteEdge>>() => T;
+  aggregate: <T = AggregateAthletePromise>() => T;
 }
 
-export interface ExcerciseConnectionSubscription
-  extends Promise<AsyncIterator<ExcerciseConnection>>,
+export interface AthleteConnectionSubscription
+  extends Promise<AsyncIterator<AthleteConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ExcerciseEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateExcerciseSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AthleteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAthleteSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -1225,6 +1559,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AthleteEdge {
+  node: Athlete;
+  cursor: String;
+}
+
+export interface AthleteEdgePromise extends Promise<AthleteEdge>, Fragmentable {
+  node: <T = AthletePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AthleteEdgeSubscription
+  extends Promise<AsyncIterator<AthleteEdge>>,
+    Fragmentable {
+  node: <T = AthleteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAthlete {
+  count: Int;
+}
+
+export interface AggregateAthletePromise
+  extends Promise<AggregateAthlete>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAthleteSubscription
+  extends Promise<AsyncIterator<AggregateAthlete>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ExcerciseConnection {
+  pageInfo: PageInfo;
+  edges: ExcerciseEdge[];
+}
+
+export interface ExcerciseConnectionPromise
+  extends Promise<ExcerciseConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ExcerciseEdge>>() => T;
+  aggregate: <T = AggregateExcercisePromise>() => T;
+}
+
+export interface ExcerciseConnectionSubscription
+  extends Promise<AsyncIterator<ExcerciseConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ExcerciseEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateExcerciseSubscription>() => T;
 }
 
 export interface ExcerciseEdge {
@@ -1384,84 +1772,6 @@ export interface AggregateLinkSubscription
   extends Promise<AsyncIterator<AggregateLink>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Routine {
-  id: ID_Output;
-  name: String;
-  description: String;
-}
-
-export interface RoutinePromise extends Promise<Routine>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  workouts: <T = FragmentableArray<Workout>>(
-    args?: {
-      where?: WorkoutWhereInput;
-      orderBy?: WorkoutOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface RoutineSubscription
-  extends Promise<AsyncIterator<Routine>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  workouts: <T = Promise<AsyncIterator<WorkoutSubscription>>>(
-    args?: {
-      where?: WorkoutWhereInput;
-      orderBy?: WorkoutOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface Workout {
-  id: ID_Output;
-  weight: Int;
-  serie: Int;
-  maxSerie: Int;
-  reps: Int;
-  tempo?: String;
-  resTime: Int;
-}
-
-export interface WorkoutPromise extends Promise<Workout>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  excercise: <T = ExcercisePromise>() => T;
-  weight: () => Promise<Int>;
-  serie: () => Promise<Int>;
-  maxSerie: () => Promise<Int>;
-  reps: () => Promise<Int>;
-  tempo: () => Promise<String>;
-  resTime: () => Promise<Int>;
-  routine: <T = RoutinePromise>() => T;
-}
-
-export interface WorkoutSubscription
-  extends Promise<AsyncIterator<Workout>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  excercise: <T = ExcerciseSubscription>() => T;
-  weight: () => Promise<AsyncIterator<Int>>;
-  serie: () => Promise<AsyncIterator<Int>>;
-  maxSerie: () => Promise<AsyncIterator<Int>>;
-  reps: () => Promise<AsyncIterator<Int>>;
-  tempo: () => Promise<AsyncIterator<String>>;
-  resTime: () => Promise<AsyncIterator<Int>>;
-  routine: <T = RoutineSubscription>() => T;
 }
 
 export interface RoutineConnection {
@@ -1640,6 +1950,50 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AthleteSubscriptionPayload {
+  mutation: MutationType;
+  node: Athlete;
+  updatedFields: String[];
+  previousValues: AthletePreviousValues;
+}
+
+export interface AthleteSubscriptionPayloadPromise
+  extends Promise<AthleteSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AthletePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AthletePreviousValuesPromise>() => T;
+}
+
+export interface AthleteSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AthleteSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AthleteSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AthletePreviousValuesSubscription>() => T;
+}
+
+export interface AthletePreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface AthletePreviousValuesPromise
+  extends Promise<AthletePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface AthletePreviousValuesSubscription
+  extends Promise<AsyncIterator<AthletePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ExcerciseSubscriptionPayload {
@@ -1951,6 +2305,10 @@ export const models: Model[] = [
   },
   {
     name: "Workout",
+    embedded: false
+  },
+  {
+    name: "Athlete",
     embedded: false
   }
 ];
