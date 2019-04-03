@@ -73,6 +73,11 @@ function newRoutine(parent,args,context,info){
     description: args.description,
   })
 }
+function newAthlete(parent,args,context,info){
+  return context.prisma.createAthlete({
+    name: args.name,
+  })
+}
 
 
 module.exports = {
@@ -82,4 +87,5 @@ module.exports = {
   newExcercise,
   newWorkout,
   newRoutine,
+  newAthlete,
 }

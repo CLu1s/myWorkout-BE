@@ -36,3 +36,9 @@ type Workout{
   resTime: Int!
   routine: Routine!
 }
+
+type Athlete{
+  id: ID! @unique
+  name: String!
+  routines: [Routine!]!
+}

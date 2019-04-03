@@ -5,6 +5,7 @@ type Query {
   excercises: [Excercise!]
   workouts: [Workout!]
   routines: [Routine!]
+  athletes: [Athlete!]
 }
 
 type Mutation {
@@ -14,6 +15,7 @@ type Mutation {
   newExcercise(name: String!, bodyPart: String!): Excercise!
   newWorkout(excerciseID: ID!, weight: Int!, maxSerie: Int!, reps: Int!, tempo: String!, resTime: Int! routineID: ID!): Workout!
   newRoutine(name:String!, description: String!): Routine!
+  newAthlete(name: String!): Athlete!
 }
 
 type Link {
@@ -57,4 +59,9 @@ type Routine{
   name: String!
   description: String!
   workouts: [Workout!]!
+}
+type Athlete{
+  id: ID!
+  name: String!
+  routines: [Routine!]!
 }

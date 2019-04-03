@@ -14,9 +14,14 @@ function routines(parent,args,context,info){
   return context.prisma.routines();
 }
 
+function athletes(parent,args,context,info){
+  return context.prisma.athletes()
+}
+
 module.exports = {
   feed,
   excercises,
   workouts,
   routines,
+  athletes,
 }
